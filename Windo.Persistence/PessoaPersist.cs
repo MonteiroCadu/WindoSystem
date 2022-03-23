@@ -25,6 +25,28 @@ namespace Windo.Persistence
             return await query.ToListAsync();
         }
 
+        public async Task<Pessoa?> GetByDocumentoAsync(string documento)
+        {
+            IQueryable<Pessoa> query = _contexto.Pessoas
+                .Where(p => p.Documento == documento)
+                .Include(p => p.LicencaClientes)
+                .ThenInclude(lc => lc.PlataformaNavigation)
+                .AsNoTracking();
+
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<Pessoa?> GetByEmailAsync(string email)
+        {
+            IQueryable<Pessoa> query = _contexto.Pessoas
+                .Where(p => p.Email == email)
+                .Include(p => p.LicencaClientes)
+                .ThenInclude(lc => lc.PlataformaNavigation)
+                .AsNoTracking();
+
+            return await query.FirstOrDefaultAsync();
+        }
+
         public async Task<Pessoa?> GetByIdAsync(int id)
         {
             IQueryable<Pessoa> query = _contexto.Pessoas

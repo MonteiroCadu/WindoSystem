@@ -58,7 +58,7 @@ namespace WindoWeb.Controllers
                 try
                 {
                     pessoaSalva = await this.pessoaService.save(pessoa);
-                    //Redirect(this.Url.Action("Edit", new { id = pessoa.Id }));
+                    return RedirectToAction("Edit", new { id = pessoaSalva?.Id });
                 }
                 catch (Exception e )
                 {
@@ -80,7 +80,7 @@ namespace WindoWeb.Controllers
             ViewData["FontIcon"] = "fa-users";
 
             
-            return View("DetalhePessoa", pessoaSalva);
+            return View("DetalhePessoa");
         }
 
         // GET: ClienteController/Edit/5
