@@ -1,0 +1,133 @@
+﻿@model PessoaDto
+<partial name="_Titulo"/>
+
+<form asp-controller="Cliente" asp-action="Save" method="post">
+    <div class="card rounded shadow-sm ">
+          <div class="p-3">
+            
+            @{if(ViewData["Error"] != null)
+            {
+                <div class="text-danger">@{this.Write(ViewData["Error"]);}
+                </div>
+            } }               
+            
+            
+              <div class="row mb-3">               
+                <div class="form-group col-md-12"> 
+                    <input type="hidden" id="id" name="id" value="@ViewData["Id"]"/>
+                    <label asp-for="NomeCompleto">Nome Completo</label>                      
+                    <input type="text" asp-for="NomeCompleto" class="form-control" placeholder="Insira o nome completo"/>                     
+                    <span asp-validation-for="NomeCompleto" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="form-group col-md-8">
+                    <label >Email</label>
+                    <input type="text" asp-for="Email" class="form-control" placeholder="Insira o e-mail">  
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label >Telefone</label>
+                    <input type="tel" asp-for="Telefone" class="form-control" placeholder="Insira o telefone">     
+                    <span asp-validation-for="Telefone" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="form-group col-md-8">
+                    <label >Documento</label>
+                    <input type="text" asp-for="Documento" class="form-control" placeholder="Insira o CPF ou CNPJ">  
+                    <span asp-validation-for="Documento" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label >Data de Nascimento</label>
+                    <input type="date" asp-for="DataNascimento" class="form-control" placeholder="Insira data de nascimento">  
+                    
+                </div>
+              </div>
+      
+          </div>
+
+          <div class="card-footer">
+              <div class="d-flex">
+                @if(Model != null)
+                {
+                     <a class="btn btn-outline-secondary mr-auto border" href="@Url.Action("Edit", new {id = Model.Id})">Cancelar Alteração </a>
+                } else
+                {
+                    <a class="btn btn-outline-secondary mr-auto border" >Cancelar Alteração</a>
+                }
+
+                  <button class="btn btn-success" >
+                      Salvar
+                  </button>
+              </div>
+        </div>
+    </div>    
+</form>
+@if(Model is not null)
+{
+   <div class="card rounded shadow-sm mt-4">
+    <div class="p-3">
+      <div class=" border-bottom mb-3">
+          <div class="row">
+            <div class="col-11 ms-auto">
+                 <h2 >
+                    Licenças Contratadas
+                </h2>
+            </div>
+             <div class="col-1 ml-auto">
+                <a class="d-flex btn btn-outline-primary" href="@Url.Action("Add","Licenca", new {id = Model.Id})">
+                        <i class="fa fa-plus-circle"></i>
+                        <b class="d-md-none d-sm-none d-xl-block"> Novo</b>
+                    </a>
+             </div> 
+            
+          </div>
+       
+      </div>      
+      <div class="form-row p-1">
+        <table class="table table-striped table-hover text-center">
+            <thead class="table-dark">
+              <tr> 
+                <th class="d-sm-none  d-md-table-cell ">Id</th>
+                <th class="d-md-block  d-md-table-cell">Conta da corretora</th>
+                <th  class="d-md-block  d-md-table-cell">Status</th>
+                <th class="d-sm-none  d-md-table-cell">Data de vencimento</th>
+                <th class="d-md-block  d-md-table-cell">Plataforma</th>
+              </tr>
+            </thead>
+            @if(Model?.LicencaClientes is not null)
+            {
+                <tbody >
+                @foreach(var item in Model.LicencaClientes)
+                {
+                    <tr >
+                    <td class="d-sm-none  d-md-table-cell">@item.Id</td>
+                    <td class="d-md-block  d-md-table-cell">@item.ContaCorretora</td>
+                    <td class="d-md-block  d-md-table-cell text-center">@{
+                                                                if (item.Ativa == 1) this.Write("Ativa"); 
+                                                                else this.Write("Inativa"); } 
+                   </td>
+                    <td class="d-sm-none  d-md-table-cell">@item.DataVencimento.ToShortDateString()</td>
+                    <td class="d-md-block  d-md-table-cell">@item.PlataformaNavigation.Nome</td>
+                    </tr> 
+                }
+                </tbody>
+            } 
+            @if(Model?.LicencaClientes?.Count == 0)
+            {
+               <tfoot >
+                  <tr>
+                    <td colspan="8" class="text-center">
+                      <h4>Nenuma licença cadastrada para este cliente</h4>
+                    </td>
+                  </tr>
+               </tfoot> 
+            }
+         </table>
+          </div>
+        </div>
+    </div> 
+}
+
+
