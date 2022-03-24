@@ -67,11 +67,11 @@ namespace Windo.Persistence
 
                 if (reader.Read())
                 {
-                    parametrs[2] = reader.GetValue(0).ToString();
-                    parametrs[3] = reader.GetValue(1).ToString();
-                    parametrs[4] = reader.GetValue(2).ToString();
+                    parametrs[2] = (String) reader.GetValue(0);
+                    parametrs[3] = (String) reader.GetValue(1);
+                    parametrs[4] = (String) reader.GetValue(2);
                     //parametrs[6] = "mxbot1";
-                    parametrs[6] = reader.GetValue(3).ToString();
+                    parametrs[6] = (String) reader.GetValue(3);
                 }
                 else
                 {
