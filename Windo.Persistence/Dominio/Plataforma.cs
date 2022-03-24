@@ -16,6 +16,8 @@ namespace Windo.Persistence.Dominio
         public string Nome { get; set; } = null!;
         public string? Descricao { get; set; }
 
+        public bool Ativa { get; set; } = true!;
+
         public virtual ICollection<LicencaCliente> LicencaClientes { get; set; }
         public virtual ICollection<PlanoVenda> PlanoVenda { get; set; }
 

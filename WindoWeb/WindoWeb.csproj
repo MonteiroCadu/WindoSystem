@@ -16,11 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Windo.Application\Windo.Application.csproj" />
+    <Folder Include="Views\Licenca\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Licenca\" />
+    <ProjectReference Include="..\Windo.Application\Windo.Application.csproj" />
   </ItemGroup>
 
 </Project>

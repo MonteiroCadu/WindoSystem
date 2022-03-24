@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+
 using Windo.Persistence.Dominio;
 
 namespace Windo.Persistence
 {
-    public partial class windo_baseContext : DbContext
+    public partial class windo_baseContext : IdentityDbContext
     {
         public windo_baseContext()
         {
@@ -28,8 +28,9 @@ namespace Windo.Persistence
         public virtual DbSet<TipoHistoricoLicenca> TipoHistoricoLicencas { get; set; } = null!;
         
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
+            
             modelBuilder.Entity<HistoricoLicenca>(entity =>
             {
                 entity.ToTable("HISTORICO_LICENCA");
@@ -314,6 +315,7 @@ namespace Windo.Persistence
                     .HasColumnName("nome");
             });
 
+            base.OnModelCreating(modelBuilder);
             OnModelCreatingPartial(modelBuilder);
         }
 
