@@ -10,11 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddScoped<ILicencaPersist, LicencaPersist>();
 builder.Services.AddScoped<ILicencaService, LicencaService>();
 builder.Services.AddScoped<IPessoaService, PessoaService>();
 builder.Services.AddScoped<IPessoaPersist, PessoaPersist>();
 builder.Services.AddScoped < IConectionFactory, ConectionFactory>();
+
 builder.Services.AddControllers()
                     .AddNewtonsoftJson( //Para evitar loop infinito no carregamento de Json´s compostos
                         x => x.SerializerSettings.ReferenceLoopHandling =
@@ -49,5 +51,10 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+//app.MapControllerRoute(
+//                name: "Cliente",
+//                pattern: "{controller=Cliente}/{action=Edit}/{id}/{pessoa?}"
+//            );
 
 app.Run();

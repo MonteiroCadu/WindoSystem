@@ -16,26 +16,33 @@
                 <div class="form-group col-md-12"> 
                     <input type="hidden" id="id" name="id" value="@ViewData["Id"]"/>
                     <label asp-for="NomeCompleto">Nome Completo</label>                      
-                    <input type="text" asp-for="NomeCompleto" class="form-control" placeholder="Insira o nome completo"/>                     
+                    <input type="text" asp-for="NomeCompleto" class="form-control" placeholder="Insira o nome completo" required/>                     
                     <span asp-validation-for="NomeCompleto" class="text-danger"></span>
                 </div>
               </div>
               <div class="row mb-3">
                 <div class="form-group col-md-8">
                     <label >Email</label>
-                    <input type="text" asp-for="Email" class="form-control" placeholder="Insira o e-mail">  
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <input type="text" asp-for="Email" class="form-control"  placeholder="Insira o e-mail" required>  
+                    <span asp-validation-for="Email" class="text-danger" ></span>
                 </div>
                 <div class="form-group col-md-4">
                     <label >Telefone</label>
-                    <input type="tel" asp-for="Telefone" class="form-control" placeholder="Insira o telefone">     
+                    <input type="tel" asp-for="Telefone" class="form-control" placeholder="Insira o telefone" required>     
                     <span asp-validation-for="Telefone" class="text-danger"></span>
                 </div>
               </div>
               <div class="row mb-3">
                 <div class="form-group col-md-8">
-                    <label >Documento</label>
-                    <input type="text" asp-for="Documento" class="form-control" placeholder="Insira o CPF ou CNPJ">  
+                    <label >Documento</label>                 
+                    @if (ViewData["Edicao"] != null)
+                    {
+                        <input type="text" asp-for="Documento" class="form-control"  placeholder="Insira o CPF ou CNPJ" required readonly="readonly">
+                    } else
+                    {
+                        <input type="text" asp-for="Documento" class="form-control"  placeholder="Insira o CPF ou CNPJ" required>
+                    }
+
                     <span asp-validation-for="Documento" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-4">
@@ -48,7 +55,7 @@
           </div>
 
           <div class="card-footer">
-              <div class="d-flex">
+              <div class="d-flex">              
                 @if(Model != null)
                 {
                      <a class="btn btn-outline-secondary mr-auto border" href="@Url.Action("Edit", new {id = Model.Id})">Cancelar Alteração </a>

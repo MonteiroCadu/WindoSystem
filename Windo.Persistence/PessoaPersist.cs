@@ -47,7 +47,7 @@ namespace Windo.Persistence
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Pessoa?> GetByIdAsync(int id)
+        public async Task<Pessoa?> GetByIdAsync(int? id = 0)
         {
             IQueryable<Pessoa> query = _contexto.Pessoas
                 .Where(p => p.Id == id)

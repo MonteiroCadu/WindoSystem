@@ -22,6 +22,7 @@ namespace WindoWeb.Controllers
             
             ViewData["Titulo"] = "Clientes";
             ViewData["SubTitulo"] = "Listagem";
+            //ViewBag.Edicao = false;
             ViewData["AspController"] = "Cliente";
             ViewData["AspAction"] = "Index";
             ViewData["FontIcon"] = "fa-users";
@@ -40,6 +41,7 @@ namespace WindoWeb.Controllers
         {
             ViewData["Titulo"] = "Cliente";
             ViewData["SubTitulo"] = "Cadastro";
+            //ViewBag.Edicao = false;
             ViewData["AspController"] = "Cliente";
             ViewData["AspAction"] = "Index";
             ViewData["FontIcon"] = "fa-users";
@@ -58,7 +60,7 @@ namespace WindoWeb.Controllers
                 try
                 {
                     pessoaSalva = await this.pessoaService.save(pessoa);
-                    return RedirectToAction("Edit", new { id = pessoaSalva?.Id });
+                    return RedirectToAction("Edit", new { id = pessoaSalva?.Id });                    
                 }
                 catch (Exception e )
                 {
@@ -69,18 +71,22 @@ namespace WindoWeb.Controllers
             
 
             ViewData["Id"] = pessoaSalva?.Id;
-            if(pessoaSalva?.Id == 0) 
+            if (pessoaSalva?.Id == 0)
                 ViewData["SubTitulo"] = "Cadastro";
             else
+            {
                 ViewData["SubTitulo"] = "Edição";
+                ViewData["Edicao"] = true;
+            }
 
-            ViewData["Titulo"] = "Cliente";            
+
+            ViewData["Titulo"] = "Cliente";
             ViewData["AspController"] = "Cliente";
             ViewData["AspAction"] = "Index";
             ViewData["FontIcon"] = "fa-users";
 
-            
-            return View("DetalhePessoa");
+
+            return View("DetalhePessoa",pessoa);
         }
 
         // GET: ClienteController/Edit/5
@@ -90,15 +96,16 @@ namespace WindoWeb.Controllers
             ViewData["Id"] = pessoaSalva?.Id;
 
             ViewData["SubTitulo"] = "Edição";
+            ViewData["Edicao"] = true;
             ViewData["Titulo"] = "Cliente";
             ViewData["AspController"] = "Cliente";
             ViewData["AspAction"] = "Index";
             ViewData["FontIcon"] = "fa-users";
 
             return View("DetalhePessoa", pessoaSalva);
-        }
+        }        
 
-        
+
         // GET: ClienteController/Delete/5
         public ActionResult Delete(int id)
         {

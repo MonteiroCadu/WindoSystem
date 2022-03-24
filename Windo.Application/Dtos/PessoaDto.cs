@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Windo.Application.Helpers;
 
 namespace Windo.Application.Dtos
 {
@@ -22,15 +19,17 @@ namespace Windo.Application.Dtos
         public string Email { get; set; } = null!;
         
         [Required(ErrorMessage = "Obrigatório"), Phone(ErrorMessage = "Informe um telefone válido")]
-        public string? Telefone { get; set; }
-        
+        public string Telefone { get; set; } = null!;
+
         public DateTime? DataNascimento { get; set; }
 
-        [Required(ErrorMessage = "Obrigatório"), 
-            MaxLength(14,ErrorMessage ="máximo 14 caracteres"),
-            MinLength(11,ErrorMessage ="Minimo 11 caracteres")]
-        public string? Documento { get; set; }
-        
+        [Required(ErrorMessage = "Obrigatório"),
+            MaxLength(14, ErrorMessage = "máximo 14 caracteres"),
+            MinLength(11, ErrorMessage = "Minimo 11 caracteres"),
+            CustomValidationCPF(ErrorMessage = "CPF inválido")
+            ]
+        public string Documento { get; set; } = null!;
+
         public virtual ICollection<LicencaDto>? LicencaClientes { get; set; }
     }
 }

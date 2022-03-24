@@ -11,7 +11,7 @@ namespace Windo.Persistence.Contratos
     {
 
         Task<IList<Pessoa>> GetAllAsync(int top);
-        Task<Pessoa?> GetByIdAsync(int id);
+        Task<Pessoa?> GetByIdAsync(int? id = 0);
         Task<Pessoa?> GetByDocumentoAsync(string documento);
         Task<Pessoa?> GetByEmailAsync(string email);
         void Add<T>(T entity) where T : class;
