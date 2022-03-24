@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Windo.Application;
 using Windo.Application.Contratos;
@@ -29,6 +30,10 @@ builder.Services.AddDbContext<windo_baseContext>(options =>
     options.UseSqlServer(SqlConnection);
 });
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+             .AddEntityFrameworkStores<windo_baseContext>()
+             .AddDefaultTokenProviders();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -46,6 +51,7 @@ app.UseRouting();
 
 
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

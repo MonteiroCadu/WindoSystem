@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Windo.Application.Contratos;
 using Windo.Application.Dtos;
 namespace WindoWeb.Controllers
 {
+    [Authorize]
     public class ClienteController : Controller
     {
         private readonly IPessoaService pessoaService;
@@ -13,7 +15,9 @@ namespace WindoWeb.Controllers
             this.pessoaService = pessoaService;
         }
         // GET: ClienteController
-        public async Task<ActionResult> Index(string stringBuscaPessoa)
+
+        [HttpGet]
+        public async Task<ActionResult> List(string stringBuscaPessoa)
         {
             
             var cliente = stringBuscaPessoa == null
@@ -24,18 +28,11 @@ namespace WindoWeb.Controllers
             ViewData["SubTitulo"] = "Listagem";
             //ViewBag.Edicao = false;
             ViewData["AspController"] = "Cliente";
-            ViewData["AspAction"] = "Index";
+            ViewData["AspAction"] = "List";
             ViewData["FontIcon"] = "fa-users";
             ViewData["stringBuscaPessoa"] = stringBuscaPessoa;
             return View(cliente.ToList());
         }
-
-        
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         
         public ActionResult Create()
         {
@@ -43,13 +40,13 @@ namespace WindoWeb.Controllers
             ViewData["SubTitulo"] = "Cadastro";
             //ViewBag.Edicao = false;
             ViewData["AspController"] = "Cliente";
-            ViewData["AspAction"] = "Index";
+            ViewData["AspAction"] = "List";
             ViewData["FontIcon"] = "fa-users";
             return View("DetalhePessoa");
         }
 
         
-        [HttpPost,HttpGet]       
+        [HttpPost]       
         public async Task<ActionResult> Save(PessoaDto pessoa)
         {
             PessoaDto? pessoaSalva = pessoa;
@@ -82,7 +79,7 @@ namespace WindoWeb.Controllers
 
             ViewData["Titulo"] = "Cliente";
             ViewData["AspController"] = "Cliente";
-            ViewData["AspAction"] = "Index";
+            ViewData["AspAction"] = "List";
             ViewData["FontIcon"] = "fa-users";
 
 
@@ -99,7 +96,7 @@ namespace WindoWeb.Controllers
             ViewData["Edicao"] = true;
             ViewData["Titulo"] = "Cliente";
             ViewData["AspController"] = "Cliente";
-            ViewData["AspAction"] = "Index";
+            ViewData["AspAction"] = "List";
             ViewData["FontIcon"] = "fa-users";
 
             return View("DetalhePessoa", pessoaSalva);
