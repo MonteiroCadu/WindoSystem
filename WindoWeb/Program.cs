@@ -30,9 +30,15 @@ builder.Services.AddDbContext<windo_baseContext>(options =>
     options.UseSqlServer(SqlConnection);
 });
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-             .AddEntityFrameworkStores<windo_baseContext>()
-             .AddDefaultTokenProviders();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(config =>
+{
+    config.Password.RequiredLength = 4;
+    config.Password.RequireDigit = false;
+    config.Password.RequireNonAlphanumeric = false;
+    config.Password.RequireUppercase = false;   
+            })
+    .AddEntityFrameworkStores<windo_baseContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 

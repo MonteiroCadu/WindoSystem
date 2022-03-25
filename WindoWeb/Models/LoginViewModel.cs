@@ -12,6 +12,6 @@ namespace WindoWeb.Models
             DataType(DataType.Password),
             Display(Name ="Senha")]
         public string Password { get; set; } = null!;
-        public string? ReturnUrl { get; internal set; }
+        public string? ReturnUrl { get; set; } = "/";
     }
 }
