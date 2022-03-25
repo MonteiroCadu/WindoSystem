@@ -24,12 +24,8 @@ namespace WindoWeb.Controllers
             var cliente = stringBuscaPessoa == null
                             ? await this.pessoaService.GetAllAsync(100)
                             : await this.pessoaService.SearchByNomeOrEmailAsync(stringBuscaPessoa);
-            
-            ViewData["Titulo"] = "Clientes";
-            ViewData["SubTitulo"] = "Listagem";           
-            ViewData["AspController"] = "Cliente";
-            ViewData["AspAction"] = "List";
-            ViewData["FontIcon"] = "fa-users";
+
+            this.SetViewData("Listagem", false);
             ViewData["stringBuscaPessoa"] = stringBuscaPessoa;
 
             return View(cliente.ToList());
