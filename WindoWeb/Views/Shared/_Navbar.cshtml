@@ -40,9 +40,20 @@
       <div class="collapse navbar-collapse align-middle" id="navbarNavDropdown">
         <ul  class="navbar-nav">
           <li class="nav-item">
+                @{
+                    var userName = Context.Session.GetString("userName");
+                    var saida = "Login";
+                    var action = "Login";
+                    if(userName != null && !userName.Equals("") )
+                    {
+                        action = "Logout";
+                        saida = $"{userName}(Sair)";
+                    }                             
 
-                        <a class="nav-link" asp-controller="Account" asp-action="Logout">(Sair)</a>
-                    </li> 
+                    <a class="nav-link" asp-controller="Account" asp-action="@action">@{this.Write(saida);}</a>
+                }
+                        
+            </li> 
       </ul>
     </div>
     </div>

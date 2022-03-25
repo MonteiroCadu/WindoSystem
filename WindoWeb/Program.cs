@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -55,7 +58,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();

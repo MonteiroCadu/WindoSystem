@@ -36,6 +36,7 @@ namespace WindoWeb.Controllers
 
             if (user != null)
             {
+                HttpContext.Session.SetString("userName", loginVM.Email);
                 var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
                 if (result.Succeeded)
                 {
@@ -54,7 +55,7 @@ namespace WindoWeb.Controllers
         public async Task<IActionResult> Logout(string returnUrl)
         {
             await _signInManager.SignOutAsync();
-
+            HttpContext.Session.SetString("userName", "");
             return RedirectToAction("Login");
         }
 
