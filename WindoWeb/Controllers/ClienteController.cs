@@ -17,6 +17,7 @@ namespace WindoWeb.Controllers
         // GET: ClienteController
 
         [HttpGet]
+        [Authorize(Roles = "Comercial")]
         public async Task<ActionResult> List(string stringBuscaPessoa)
         {
             
@@ -25,28 +26,26 @@ namespace WindoWeb.Controllers
                             : await this.pessoaService.SearchByNomeOrEmailAsync(stringBuscaPessoa);
             
             ViewData["Titulo"] = "Clientes";
-            ViewData["SubTitulo"] = "Listagem";
-            //ViewBag.Edicao = false;
+            ViewData["SubTitulo"] = "Listagem";           
             ViewData["AspController"] = "Cliente";
             ViewData["AspAction"] = "List";
             ViewData["FontIcon"] = "fa-users";
             ViewData["stringBuscaPessoa"] = stringBuscaPessoa;
+
             return View(cliente.ToList());
         }
-        
+       
+        [Authorize(Roles ="Comercial")]
         public ActionResult Create()
         {
-            ViewData["Titulo"] = "Cliente";
-            ViewData["SubTitulo"] = "Cadastro";
-            //ViewBag.Edicao = false;
-            ViewData["AspController"] = "Cliente";
-            ViewData["AspAction"] = "List";
-            ViewData["FontIcon"] = "fa-users";
+            this.SetViewData("Cadastro", false);
+
             return View("DetalhePessoa");
         }
 
         
-        [HttpPost]       
+        [HttpPost]
+        [Authorize(Roles = "Comercial")]
         public async Task<ActionResult> Save(PessoaDto pessoa)
         {
             PessoaDto? pessoaSalva = pessoa;
@@ -68,42 +67,35 @@ namespace WindoWeb.Controllers
             
 
             ViewData["Id"] = pessoaSalva?.Id;
+            var subtitulo = "";
+            var edicao = false;
+
             if (pessoaSalva?.Id == 0)
-                ViewData["SubTitulo"] = "Cadastro";
+                subtitulo = "Cadastro";
             else
             {
-                ViewData["SubTitulo"] = "Edição";
-                ViewData["Edicao"] = true;
+                subtitulo = "Edição";
+                edicao = true;
             }
 
-
-            ViewData["Titulo"] = "Cliente";
-            ViewData["AspController"] = "Cliente";
-            ViewData["AspAction"] = "List";
-            ViewData["FontIcon"] = "fa-users";
-
+            this.SetViewData(subtitulo, edicao);
 
             return View("DetalhePessoa",pessoa);
         }
 
-        // GET: ClienteController/Edit/5
+        [Authorize(Roles = "Comercial")]
         public async Task<ActionResult> Edit(int id)
         {
             var pessoaSalva = await this.pessoaService.GetByIdAsync(id);
             ViewData["Id"] = pessoaSalva?.Id;
 
-            ViewData["SubTitulo"] = "Edição";
-            ViewData["Edicao"] = true;
-            ViewData["Titulo"] = "Cliente";
-            ViewData["AspController"] = "Cliente";
-            ViewData["AspAction"] = "List";
-            ViewData["FontIcon"] = "fa-users";
+            this.SetViewData("Edição",true);            
 
             return View("DetalhePessoa", pessoaSalva);
-        }        
+        }
 
 
-        // GET: ClienteController/Delete/5
+        [Authorize(Roles = "Gerencia")]
         public ActionResult Delete(int id)
         {
             return View();
@@ -122,6 +114,16 @@ namespace WindoWeb.Controllers
             {
                 return View();
             }
+        }
+
+        private void SetViewData(string subTitulo,bool edicao)
+        {
+            ViewData["Titulo"]  = "Clientes";
+            ViewData["SubTitulo"] = subTitulo;
+            ViewData["Edicao"] = edicao;
+            ViewData["AspController"] = "Cliente";
+            ViewData["AspAction"] = "List";
+            ViewData["FontIcon"] = "fa-users";
         }
     }
 }
