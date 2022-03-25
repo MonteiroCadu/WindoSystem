@@ -13,8 +13,15 @@ public class ProEventosProfile : Profile
         //de Evento para EventoDto e de EventoDto para Evento 
 
         CreateMap<Pessoa, PessoaDto>().ReverseMap();
-        CreateMap<LicencaDto,LicencaCliente>().ReverseMap();
-        CreateMap<Plataforma, PlataformaDto>().ReverseMap();        
+        CreateMap<LicencaCliente,LicencaDto>().ReverseMap();
+        CreateMap<Plataforma, PlataformaDto>().ReverseMap();
+        CreateMap<TempoVencimentoLicenca, TempoVencimentoLicencaDto>().ReverseMap();
+        CreateMap<PlanoVenda, PlanoVendaDto>().ReverseMap();
+        CreateMap<HistoricoLicenca, HistoricoLicencaDto>().ReverseMap();
+        CreateMap<Robo, RoboDto>().ReverseMap();
+        CreateMap<TempoVencimentoLicenca, TempoVencimentoLicencaDto>().ReverseMap();
+        CreateMap<TipoHistoricoLicenca, TipoHistoricoLicencaDto>().ReverseMap();
+
     }
 }
 

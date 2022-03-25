@@ -1,4 +1,6 @@
-﻿namespace WindoWeb.Models
+﻿using Windo.Application.Dtos;
+
+namespace WindoWeb.Models
 {
     public class AddLicencaViewModel
     {
@@ -7,5 +9,6 @@
         public int Plataforma { get; set; }
         public int ContaCorretora { get; set; }
 
+        public List<PlataformaDto> Plataformas { get; set; } = null!;
     }
 }

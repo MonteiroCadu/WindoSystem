@@ -8,12 +8,18 @@ namespace Windo.Application.Dtos
 {
     public class PlataformaDto
     {
-       
+
+        public PlataformaDto()
+        {
+            LicencaClientes = new HashSet<LicencaDto>();
+            PlanoVenda = new HashSet<PlanoVendaDto>();
+            Robos = new HashSet<RoboDto>();
+        }
         public int Id { get; set; }        
         public string Nome { get; set; } = null!;        
         public string? Descricao { get; set; }        
-        //public virtual ICollection<LicencaCliente> LicencaClientes { get; set; }        
-        //public virtual ICollection<PlanoVenda> PlanoVenda { get; set; }
-        //public virtual ICollection<Robo> Robos { get; set; }
+        public virtual ICollection<LicencaDto> LicencaClientes { get; set; }        
+        public virtual ICollection<PlanoVendaDto> PlanoVenda { get; set; }
+        public virtual ICollection<RoboDto> Robos { get; set; }
     }
 }
