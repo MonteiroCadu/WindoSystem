@@ -6,6 +6,7 @@ using Windo.Application.Dtos;
 namespace WindoWeb.Controllers
 {
     [Authorize]
+    [ValidateAntiForgeryToken]
     public class ClienteController : Controller
     {
         private readonly IPessoaService pessoaService;
@@ -90,27 +91,14 @@ namespace WindoWeb.Controllers
             return View("DetalhePessoa", pessoaSalva);
         }
 
-
+        [HttpPost]
         [Authorize(Roles = "Gerencia")]
+        [ValidateAntiForgeryToken]        
         public ActionResult Delete(int id)
         {
             return View();
         }
-
-        // POST: ClienteController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
 
         private void SetViewData(string subTitulo,bool edicao)
         {
