@@ -14,6 +14,7 @@ namespace Windo.Application.Dtos
         public int Plataforma { get; set; }
         public int ValidadeLicenca { get; set; }
         public decimal Valor { get; set; }
+        public bool Ativo { get; set; } = true!;
 
         public virtual PlataformaDto PlataformaNavigation { get; set; } = null!;
         public virtual TempoVencimentoLicencaDto ValidadeLicencaNavigation { get; set; } = null!;

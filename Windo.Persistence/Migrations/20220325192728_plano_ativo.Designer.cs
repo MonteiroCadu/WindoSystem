@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Windo.Persistence;
 
@@ -11,9 +12,10 @@ using Windo.Persistence;
 namespace Windo.Persistence.Migrations
 {
     [DbContext(typeof(windo_baseContext))]
-    partial class windo_baseContextModelSnapshot : ModelSnapshot
+    [Migration("20220325192728_plano_ativo")]
+    partial class plano_ativo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

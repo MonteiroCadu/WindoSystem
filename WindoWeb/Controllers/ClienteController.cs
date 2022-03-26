@@ -6,7 +6,7 @@ using Windo.Application.Dtos;
 namespace WindoWeb.Controllers
 {
     [Authorize]
-    [ValidateAntiForgeryToken]
+    
     public class ClienteController : Controller
     {
         private readonly IPessoaService pessoaService;

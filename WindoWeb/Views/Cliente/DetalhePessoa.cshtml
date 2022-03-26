@@ -1,9 +1,118 @@
 ﻿@model PessoaDto
+@section Scripts
+{
+  <script type="text/javascript">
+    function FillPlataformaSelect() {
+        alert("List");
+        $.get("/Plataforma/List/",function(data) {
+           if(data != null && data.length >0) {
+               alert("temos itens");
+
+               data.forEach(function(plataforma, i) {
+                    console.log('[forEach]', plataforma.nome, i);                    
+                   
+               });
+           }
+        });
+
+        $.get("/Plataforma/GetPlanos/1",function(data) {
+           if(data != null && data.length >0) {
+               alert("temos itens");
+
+               data.forEach(function(plano, i) {
+                    console.log('[forEach]', plano.nome, i);                    
+                   
+               });
+           }
+        });
+    };
+    
+    
+    function ChengePlataforma(){    
+
+        var plataforma = $('#plataforma').val();
+        
+        $.get("/Plataforma/Get/" + plataforma,function(data) {
+            alert("Retorno do post " + data.nome);
+        })
+
+    };
+
+    
+  </script>
+}
 <partial name="_Titulo"/>
 
 <form asp-controller="Cliente" asp-action="Save" method="post">
     <div class="card rounded shadow-sm ">
           <div class="p-3">
+
+              <div id="divModal"class="modal">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                         
+                          <div class="modal-header">
+                              <h3>Adicionar Licença</h3>
+                              <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <div class="modal-body">
+                              
+                              <div class="row mb-3">               
+                                
+                                 <div class="form-group col-md-4">
+                                    <label >Plataforma</label>
+                                    <select class="form-select" id="plataforma" onchange="ChengePlataforma()" aria-label="Plataforma">
+                                      <option selected>Selecione</option>
+                                      <option value="1">One</option>
+                                      <option value="2">Two</option>
+                                      <option value="3">Three</option>
+                                    </select>                                    
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label >Plano de Venda</label>
+                                    <select class="form-select" id="planoVendas" aria-label="Plano de vendas">
+                                      <option selected>Selecione</option>
+                                      <option value="1">One</option>
+                                      <option value="2">Two</option>
+                                      <option value="3">Three</option>
+                                    </select> 
+                                    
+                                </div> 
+                                <div class="form-group col-md-4">
+                                    <label >Vencimento</label>
+                                    <input type="date"  class="form-control" readonly placeholder="Conta" >   
+                                    
+                                </div> 
+                              </div>
+                              <div class="row mb-3">               
+                                
+                                 <div class="form-group col-md-6">
+                                    <label >Corretora</label>
+                                    <select class="form-select" id="corretora" aria-label="Corretora">
+                                      <option selected>Selecione</option>
+                                      <option value="1">One</option>
+                                      <option value="2">Two</option>
+                                      <option value="3">Three</option>
+                                    </select>                                     
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label >Conta</label>
+                                    <input type="text"  class="form-control" placeholder="Conta" >   
+                                    
+                                </div>                                 
+
+                              </div>
+                          </div>
+
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                              <button type="button" class="btn btn-success" data-bs-dismiss="modal">Salvar</button>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
             
             @{if(ViewData["Error"] != null)
             {
@@ -82,9 +191,10 @@
                     Licenças Contratadas
                 </h2>
             </div>
-             <div class="col-1 ml-auto">
-                <a class="d-flex btn btn-outline-primary" href="@Url.Action("Add","Licenca", new {id = Model.Id})">
-                        <i class="fa fa-plus-circle"></i>
+             <div class="col-1 ml-auto">             
+                
+                <a class="d-flex btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#divModal" onclick="FillPlataformaSelect()">
+                        <i class="fa fa-plus-circle"></i>                        
                         <b class="d-md-none d-sm-none d-xl-block"> Novo</b>
                     </a>
              </div> 
@@ -135,6 +245,8 @@
           </div>
         </div>
     </div> 
+
+    
 }
 
 

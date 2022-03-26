@@ -9,6 +9,10 @@ namespace WindoWeb.Models
         public int Plataforma { get; set; }
         public int ContaCorretora { get; set; }
 
-        public List<PlataformaDto> Plataformas { get; set; } = null!;
+        public int? plataforma { get; set; }
+        public int? planoVenda { get; set; }
+
+        public IList<PlataformaDto> Plataformas { get; set; } = null!;
+        public IList<PlanoVendaDto> PlanosVendas { get; set; } = null!;
     }
 }

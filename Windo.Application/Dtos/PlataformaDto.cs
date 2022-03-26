@@ -17,7 +17,8 @@ namespace Windo.Application.Dtos
         }
         public int Id { get; set; }        
         public string Nome { get; set; } = null!;        
-        public string? Descricao { get; set; }        
+        public string? Descricao { get; set; }
+        public bool Ativa { get; set; } = true!;
         public virtual ICollection<LicencaDto> LicencaClientes { get; set; }        
         public virtual ICollection<PlanoVendaDto> PlanoVenda { get; set; }
         public virtual ICollection<RoboDto> Robos { get; set; }

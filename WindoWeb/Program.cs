@@ -19,6 +19,9 @@ builder.Services.AddScoped<ILicencaPersist, LicencaPersist>();
 builder.Services.AddScoped<ILicencaService, LicencaService>();
 builder.Services.AddScoped<IPessoaService, PessoaService>();
 builder.Services.AddScoped<IPessoaPersist, PessoaPersist>();
+builder.Services.AddScoped<IPlataformaService, PlataformaService>();
+builder.Services.AddScoped<IPlataformaPersist, PlataformaPersist>();
+
 builder.Services.AddScoped < IConectionFactory, ConectionFactory>();
 
 builder.Services.AddControllers()
