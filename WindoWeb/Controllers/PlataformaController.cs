@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Windo.Application.Contratos;
 using Windo.Application.Dtos;
 
@@ -12,7 +13,8 @@ namespace WindoWeb.Controllers
         {
             this.plataformaService = plataformaService;
         }
-        
+
+        [Authorize(Roles = "Comercial")]        
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -29,6 +31,7 @@ namespace WindoWeb.Controllers
             
         }
 
+        [Authorize(Roles = "Comercial")]        
         public async Task<IActionResult> GetPlanos(int id)
         {
             try
@@ -45,6 +48,7 @@ namespace WindoWeb.Controllers
 
         }
 
+        [Authorize(Roles = "Comercial")]        
         public async Task<IActionResult> List()
         {
             try

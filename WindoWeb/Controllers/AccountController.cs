@@ -16,7 +16,7 @@ namespace WindoWeb.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-
+        
         public IActionResult Login(string returnUrl)
         {
             return View(new LoginViewModel()
@@ -52,8 +52,7 @@ namespace WindoWeb.Controllers
             return View(loginVM);
         }
 
-        [Authorize]
-        [ValidateAntiForgeryToken]
+        [Authorize]        
         public async Task<IActionResult> Logout(string returnUrl)
         {
             await _signInManager.SignOutAsync();
@@ -61,8 +60,7 @@ namespace WindoWeb.Controllers
             return RedirectToAction("Login");
         }
 
-        [Authorize(Roles = "Admin")]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]        
         [HttpPost]
         public async Task<IActionResult> Register(LoginViewModel registroVM)
         {

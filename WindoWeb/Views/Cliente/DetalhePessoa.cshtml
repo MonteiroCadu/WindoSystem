@@ -1,40 +1,61 @@
 ﻿@model PessoaDto
 @section Scripts
 {
-  <script type="text/javascript">
+  <script >
     function FillPlataformaSelect() {
-        alert("List");
+        
         $.get("/Plataforma/List/",function(data) {
            if(data != null && data.length >0) {
-               alert("temos itens");
+               
+               $('#plataforma').empty();
+               $('#planoVendas').empty();
+               $('#vencimento').val('');
+
+               $('#plataforma').append('<option value="-1">Selecione</option>');
 
                data.forEach(function(plataforma, i) {
                     console.log('[forEach]', plataforma.nome, i);                    
-                   
+                   $('#plataforma').append('<option value="' + plataforma.id + '"> ' + plataforma.nome + ' </option>');
                });
            }
         });
-
-        $.get("/Plataforma/GetPlanos/1",function(data) {
-           if(data != null && data.length >0) {
-               alert("temos itens");
-
-               data.forEach(function(plano, i) {
-                    console.log('[forEach]', plano.nome, i);                    
-                   
-               });
-           }
-        });
+       
     };
     
     
     function ChengePlataforma(){    
-
-        var plataforma = $('#plataforma').val();
         
-        $.get("/Plataforma/Get/" + plataforma,function(data) {
-            alert("Retorno do post " + data.nome);
-        })
+        var plataforma = $('#plataforma').val();
+        $('#planoVendas').empty();
+        $('#vencimento').val('');
+
+         $.get("/Plataforma/GetPlanos/" + plataforma,function(data) {
+           if(data != null && data.length >0) {
+               
+               $('#planoVendas').empty();
+               $('#planoVendas').append('<option value="-1">Selecione</option>');
+
+               data.forEach(function(plano, i) {
+                    console.log('[forEach]', plataforma.nome, i);                    
+                   $('#planoVendas').append('<option value="' + plano.id + '"> ' + plano.nomeComValor + ' </option>');
+               });
+           }
+        });
+
+    };
+
+    function ChengePlano(){    
+        
+        var plano = $('#planoVendas').val();
+        $('#vencimento').val('');
+        
+         $.get("/PlanoVenda/Get/" + plano,function(data) {
+           if(data != null) {               
+               
+               $('#vencimento').val(data.vencimento);
+               
+           }
+        });
 
     };
 
@@ -47,8 +68,8 @@
     <div class="card rounded shadow-sm ">
           <div class="p-3">
 
-              <div id="divModal"class="modal">
-                  <div class="modal-dialog">
+              <div id="divModal"class="modal fade">
+                  <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                          
                           <div class="modal-header">
@@ -64,24 +85,20 @@
                                     <label >Plataforma</label>
                                     <select class="form-select" id="plataforma" onchange="ChengePlataforma()" aria-label="Plataforma">
                                       <option selected>Selecione</option>
-                                      <option value="1">One</option>
-                                      <option value="2">Two</option>
-                                      <option value="3">Three</option>
+                                      
                                     </select>                                    
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label >Plano de Venda</label>
-                                    <select class="form-select" id="planoVendas" aria-label="Plano de vendas">
+                                    <select class="form-select" id="planoVendas" onchange="ChengePlano()" aria-label="Plano de vendas">
                                       <option selected>Selecione</option>
-                                      <option value="1">One</option>
-                                      <option value="2">Two</option>
-                                      <option value="3">Three</option>
+                                      
                                     </select> 
                                     
                                 </div> 
                                 <div class="form-group col-md-4">
                                     <label >Vencimento</label>
-                                    <input type="date"  class="form-control" readonly placeholder="Conta" >   
+                                    <input type="text"  class="form-control" id="vencimento" readonly  >   
                                     
                                 </div> 
                               </div>
@@ -91,9 +108,7 @@
                                     <label >Corretora</label>
                                     <select class="form-select" id="corretora" aria-label="Corretora">
                                       <option selected>Selecione</option>
-                                      <option value="1">One</option>
-                                      <option value="2">Two</option>
-                                      <option value="3">Three</option>
+                                      
                                     </select>                                     
                                 </div>
                                 <div class="form-group col-md-6">

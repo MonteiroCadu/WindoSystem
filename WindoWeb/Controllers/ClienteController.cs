@@ -5,8 +5,7 @@ using Windo.Application.Contratos;
 using Windo.Application.Dtos;
 namespace WindoWeb.Controllers
 {
-    [Authorize]
-    
+       
     public class ClienteController : Controller
     {
         private readonly IPessoaService pessoaService;
@@ -18,7 +17,7 @@ namespace WindoWeb.Controllers
         // GET: ClienteController
 
         [HttpGet]
-        [Authorize(Roles = "Comercial")]
+        [Authorize(Roles = "Comercial")]       
         public async Task<ActionResult> List(string stringBuscaPessoa)
         {
             
@@ -32,7 +31,7 @@ namespace WindoWeb.Controllers
             return View(cliente.ToList());
         }
        
-        [Authorize(Roles ="Comercial")]
+        [Authorize(Roles ="Comercial")]        
         public ActionResult Create()
         {
             this.SetViewData("Cadastro", false);
@@ -42,7 +41,7 @@ namespace WindoWeb.Controllers
 
         
         [HttpPost]
-        [Authorize(Roles = "Comercial")]
+        [Authorize(Roles = "Comercial")]       
         public async Task<ActionResult> Save(PessoaDto pessoa)
         {
             PessoaDto? pessoaSalva = pessoa;
@@ -80,7 +79,7 @@ namespace WindoWeb.Controllers
             return View("DetalhePessoa",pessoa);
         }
 
-        [Authorize(Roles = "Comercial")]
+        [Authorize(Roles = "Comercial")]        
         public async Task<ActionResult> Edit(int id)
         {
             var pessoaSalva = await this.pessoaService.GetByIdAsync(id);
@@ -92,8 +91,7 @@ namespace WindoWeb.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Gerencia")]
-        [ValidateAntiForgeryToken]        
+        [Authorize(Roles = "Gerencia")]              
         public ActionResult Delete(int id)
         {
             return View();

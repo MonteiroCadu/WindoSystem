@@ -16,6 +16,13 @@ namespace Windo.Application.Dtos
         public decimal Valor { get; set; }
         public bool Ativo { get; set; } = true!;
 
+        public string NomeComValor
+        {
+            get => this.Nome + " - " + this.ValidadeLicencaNavigation.Nome + " - R$" + this.Valor.ToString();
+        }
+
+        public string Vencimento { get => DateTime.Now.AddDays(this.ValidadeLicencaNavigation.NumeroDias).ToString("dd/MM/yyyy");  }
+
         public virtual PlataformaDto PlataformaNavigation { get; set; } = null!;
         public virtual TempoVencimentoLicencaDto ValidadeLicencaNavigation { get; set; } = null!;
     }

@@ -21,6 +21,8 @@ builder.Services.AddScoped<IPessoaService, PessoaService>();
 builder.Services.AddScoped<IPessoaPersist, PessoaPersist>();
 builder.Services.AddScoped<IPlataformaService, PlataformaService>();
 builder.Services.AddScoped<IPlataformaPersist, PlataformaPersist>();
+builder.Services.AddScoped<IPlanoVendaPersist, PlanoVendaPersist>();
+builder.Services.AddScoped<IPlanoVendaService, PlanoVendaService>();
 
 builder.Services.AddScoped < IConectionFactory, ConectionFactory>();
 
