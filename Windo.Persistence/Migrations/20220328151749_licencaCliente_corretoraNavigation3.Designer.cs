@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Windo.Persistence;
 
@@ -11,9 +12,10 @@ using Windo.Persistence;
 namespace Windo.Persistence.Migrations
 {
     [DbContext(typeof(windo_baseContext))]
-    partial class windo_baseContextModelSnapshot : ModelSnapshot
+    [Migration("20220328151749_licencaCliente_corretoraNavigation3")]
+    partial class licencaCliente_corretoraNavigation3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -357,7 +359,10 @@ namespace Windo.Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("conta_corretora");
 
-                    b.Property<int>("CorretoraId")
+                    b.Property<int>("Corretora")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CorretoraNavigationId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataAbertura")
@@ -378,7 +383,7 @@ namespace Windo.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CorretoraId");
+                    b.HasIndex("CorretoraNavigationId");
 
                     b.HasIndex("Plataforma");
 
@@ -711,7 +716,7 @@ namespace Windo.Persistence.Migrations
                 {
                     b.HasOne("Windo.Persistence.Dominio.Corretora", "CorretoraNavigation")
                         .WithMany("LicencaClientes")
-                        .HasForeignKey("CorretoraId")
+                        .HasForeignKey("CorretoraNavigationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

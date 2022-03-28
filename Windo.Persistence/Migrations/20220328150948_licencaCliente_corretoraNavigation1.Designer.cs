@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Windo.Persistence;
 
@@ -11,9 +12,10 @@ using Windo.Persistence;
 namespace Windo.Persistence.Migrations
 {
     [DbContext(typeof(windo_baseContext))]
-    partial class windo_baseContextModelSnapshot : ModelSnapshot
+    [Migration("20220328150948_licencaCliente_corretoraNavigation1")]
+    partial class licencaCliente_corretoraNavigation1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -357,7 +359,7 @@ namespace Windo.Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("conta_corretora");
 
-                    b.Property<int>("CorretoraId")
+                    b.Property<int?>("CorretoraId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataAbertura")
@@ -709,11 +711,9 @@ namespace Windo.Persistence.Migrations
 
             modelBuilder.Entity("Windo.Persistence.Dominio.LicencaCliente", b =>
                 {
-                    b.HasOne("Windo.Persistence.Dominio.Corretora", "CorretoraNavigation")
+                    b.HasOne("Windo.Persistence.Dominio.Corretora", null)
                         .WithMany("LicencaClientes")
-                        .HasForeignKey("CorretoraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CorretoraId");
 
                     b.HasOne("Windo.Persistence.Dominio.Pessoa", "PessoaNavigation")
                         .WithMany("LicencaClientes")
@@ -726,8 +726,6 @@ namespace Windo.Persistence.Migrations
                         .HasForeignKey("Plataforma")
                         .IsRequired()
                         .HasConstraintName("FK__LICENCA__platafo__17F790F9");
-
-                    b.Navigation("CorretoraNavigation");
 
                     b.Navigation("PessoaNavigation");
 

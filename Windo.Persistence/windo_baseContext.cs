@@ -26,7 +26,8 @@ namespace Windo.Persistence
         public virtual DbSet<Robo> Robos { get; set; } = null!;
         public virtual DbSet<TempoVencimentoLicenca> TempoVencimentoLicencas { get; set; } = null!;
         public virtual DbSet<TipoHistoricoLicenca> TipoHistoricoLicencas { get; set; } = null!;
-        
+        public virtual DbSet<Corretora> Corretoras { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {

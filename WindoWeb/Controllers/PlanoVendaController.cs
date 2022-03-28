@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Windo.Application.Contratos;
 
 namespace WindoWeb.Controllers
@@ -12,6 +13,7 @@ namespace WindoWeb.Controllers
             this.planoVendaService = planoVendaService;
         }
 
+        [Authorize(Roles = "Comercial")]
         public async Task<IActionResult> Get(int id)
         {
             try
