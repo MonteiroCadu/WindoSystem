@@ -15,8 +15,11 @@ namespace Windo.Application.Dtos
         public int ContaCorretora { get; set; }        
         public DateTime DataAbertura { get; set; }       
         public DateTime DataVencimento { get; set; }        
-        public byte Ativa { get; set; }       
+        public byte Ativa { get; set; }
+        public int? Corretora { get; set; } = null!;
         public virtual PessoaDto PessoaNavigation { get; set; } = null!;        
         public virtual PlataformaDto PlataformaNavigation { get; set; } = null!;
+
+        public virtual CorretoraDto CorretoraNavigation { get; set; } = null!;
     }
 }

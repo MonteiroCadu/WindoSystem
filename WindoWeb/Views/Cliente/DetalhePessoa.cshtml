@@ -13,9 +13,21 @@
 
                $('#plataforma').append('<option value="-1">Selecione</option>');
 
-               data.forEach(function(plataforma, i) {
-                    console.log('[forEach]', plataforma.nome, i);                    
+               data.forEach(function(plataforma, i) {                                     
                    $('#plataforma').append('<option value="' + plataforma.id + '"> ' + plataforma.nome + ' </option>');
+               });
+           }
+        });
+
+        $.get("/Corretora/List/",function(data) {
+           if(data != null && data.length >0) {
+               
+               $('#corretora').empty();
+               
+               $('#corretora').append('<option value="-1">Selecione</option>');
+
+               data.forEach(function(corretora, i) {                                       
+                   $('#corretora').append('<option value="' + corretora.id + '"> ' + corretora.nome + ' </option>');
                });
            }
         });
@@ -35,8 +47,7 @@
                $('#planoVendas').empty();
                $('#planoVendas').append('<option value="-1">Selecione</option>');
 
-               data.forEach(function(plano, i) {
-                    console.log('[forEach]', plataforma.nome, i);                    
+               data.forEach(function(plano, i) {                                        
                    $('#planoVendas').append('<option value="' + plano.id + '"> ' + plano.nomeComValor + ' </option>');
                });
            }
@@ -59,6 +70,48 @@
 
     };
 
+    function AddLicenca() {
+        var idPessoa       = $('#id').val();
+        var plataforma     = $('#plataforma').val();
+        var plano          = $('#planoVendas').val();
+        var contaCorretora = $('#contaCorretora').val();
+        
+        var divErroModal =  $('#divErroModal');
+        if (!this.ValidateModal(idPessoa,plataforma,plano,contaCorretora)) {
+                    
+            divErroModal.css("display", "block");
+            
+        } else {
+            divErroModal.css("display", "none");
+        }
+        
+        var licenca =  {
+            'pessoa' : idPessoa,
+            'plataforma': plataforma,
+            'planoVenda' : plano,
+            'contaCorretora': contaCorretora
+        }
+
+        $.post("/Licenca/AddToCliente",licenca,function(data) {});        
+       
+        
+    };
+
+    function ValidateModal(idPessoa,plataforma,plano,contaCorretora) {
+        var idPessoa       = $('#id').val();
+        var plataforma     = $('#plataforma').val();
+        var plano          = $('#planoVendas').val();
+        var contaCorretora = $('#contaCorretora').val();
+        var corretora = $('#contaCorretora').val();        
+        
+        if (plataforma == null || plataforma === "-1") return false;
+        if (plano == null || plano === "-1") return false;
+        if (corretora == null || corretora === "-1") return false;
+        if (contaCorretora == null || contaCorretora === "") return false;
+
+        return true;
+        
+    }
     
   </script>
 }
@@ -112,17 +165,20 @@
                                     </select>                                     
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label >Conta</label>
-                                    <input type="text"  class="form-control" placeholder="Conta" >   
+                                    <label>Conta da Corretora</label>
+                                    <input type="text"  class="form-control" id="contaCorretora" placeholder="Conta da Corretora" >   
                                     
                                 </div>                                 
 
+                              </div>
+                              <div id="divErroModal" class="invalid-feedback ">
+                                <h5>Todos os campos são obrigatorios!</h5>
                               </div>
                           </div>
 
                           <div class="modal-footer">
                               <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                              <button type="button" class="btn btn-success" data-bs-dismiss="modal">Salvar</button>
+                              <button type="button" class="btn btn-success" onclick="AddLicenca()">Salvar</button>
                           </div>
 
                       </div>
@@ -147,7 +203,10 @@
               <div class="row mb-3">
                 <div class="form-group col-md-8">
                     <label >Email</label>
-                    <input type="text" asp-for="Email" class="form-control"  placeholder="Insira o e-mail" required>  
+                    <input type="text" asp-for="Email" class="form-control"  placeholder="Insira o e-mail" required> 
+                    <div class="invalid-feedback">
+                      Please provide a valid city.
+                    </div>
                     <span asp-validation-for="Email" class="text-danger" ></span>
                 </div>
                 <div class="form-group col-md-4">

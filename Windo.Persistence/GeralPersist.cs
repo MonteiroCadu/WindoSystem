@@ -17,8 +17,8 @@ namespace Windo.Persistence
         }
         public void Add<T>(T entity) where T : class
         {
-            _contexto.Add(entity);
-        }
+            _contexto.Add(entity);           
+        }       
 
         public void Update<T>(T entity) where T : class
         {

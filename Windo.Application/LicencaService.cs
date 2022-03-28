@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Windo.Application.Contratos;
+using Windo.Application.Dtos;
 using Windo.Persistence.Contratos;
 
 namespace Windo.Application;
@@ -13,6 +14,14 @@ public class LicencaService : ILicencaService{
         this.licencaPersist = licencaPersist;
     }
    
+    public Task<AddLicencaDto> AddLicencaToCliente(AddLicencaDto addLicencaDto)
+    {
+        this.licencaPersist.
+        LicencaDto novaLicenca = new LicencaDto();
+        novaLicenca.Ativa = 0;
+        novaLicenca.Pessoa = addLicencaDto.Pessoa;
+        novaLicenca.DataAbertura = DateTime.Now;
+    }
 
     public string getStringEncryptLicenca(string id, string broker)
     {

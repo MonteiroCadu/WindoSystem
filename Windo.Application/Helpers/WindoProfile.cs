@@ -20,7 +20,8 @@ public class ProEventosProfile : Profile
         CreateMap<HistoricoLicenca, HistoricoLicencaDto>().ReverseMap();
         CreateMap<Robo, RoboDto>().ReverseMap();
         CreateMap<TempoVencimentoLicenca, TempoVencimentoLicencaDto>().ReverseMap();
-        CreateMap<TipoHistoricoLicenca, TipoHistoricoLicencaDto>().ReverseMap();       
+        CreateMap<TipoHistoricoLicenca, TipoHistoricoLicencaDto>().ReverseMap();
+        CreateMap<Corretora, CorretoraDto>().ReverseMap();
 
     }
 }

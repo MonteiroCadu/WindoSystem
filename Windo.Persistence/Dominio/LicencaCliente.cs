@@ -12,8 +12,9 @@ namespace Windo.Persistence.Dominio
         public DateTime DataAbertura { get; set; }
         public DateTime DataVencimento { get; set; }
         public byte Ativa { get; set; }
-
+        public int CorretoraId { get; set; }
         public virtual Pessoa PessoaNavigation { get; set; } = null!;
         public virtual Plataforma PlataformaNavigation { get; set; } = null!;
+        public virtual Corretora CorretoraNavigation { get; set; } = null!;
     }
 }
