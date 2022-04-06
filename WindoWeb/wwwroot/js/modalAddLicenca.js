@@ -92,7 +92,9 @@ function AddLicenca() {
         'contaCorretora': contaCorretora
     }
 
-    $.post("/Licenca/AddToCliente", licenca, function (data) { });
+    $.post("/Licenca/AddToCliente", licenca, function (data) {
+
+    });
 
 
 };
