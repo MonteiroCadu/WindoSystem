@@ -1,0 +1,63 @@
+﻿<div id="divModal"class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+                         
+            <div class="modal-header">
+                <h3>Adicionar Licença</h3>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                              
+                <div class="row mb-3">               
+                                
+                    <div class="form-group col-md-4">
+                    <label >Plataforma</label>
+                    <select class="form-select" id="plataforma" onchange="ChengePlataforma()" aria-label="Plataforma">
+                        <option selected>Selecione</option>
+                                      
+                    </select>                                    
+                </div>
+                <div class="form-group col-md-4">
+                    <label >Plano de Venda</label>
+                    <select class="form-select" id="planoVendas" onchange="ChengePlano()" aria-label="Plano de vendas">
+                        <option selected>Selecione</option>
+                                      
+                    </select> 
+                                    
+                </div> 
+                <div class="form-group col-md-4">
+                    <label >Vencimento</label>
+                    <input type="text"  class="form-control" id="vencimento" readonly  >   
+                                    
+                </div> 
+                </div>
+                <div class="row mb-3">               
+                                
+                    <div class="form-group col-md-6">
+                    <label >Corretora</label>
+                    <select class="form-select" id="corretora" aria-label="Corretora">
+                        <option selected>Selecione</option>
+                                      
+                    </select>                                     
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Conta da Corretora</label>
+                    <input type="text"  class="form-control" id="contaCorretora" placeholder="Conta da Corretora" >   
+                                    
+                </div>                                 
+
+                </div>
+                <div id="divErroModal" class="invalid-feedback ">
+                <h5>Todos os campos são obrigatorios!</h5>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" onclick="AddLicenca()">Salvar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
