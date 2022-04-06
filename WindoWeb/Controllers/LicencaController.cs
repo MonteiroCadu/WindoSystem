@@ -23,10 +23,10 @@ namespace WindoWeb.Controllers
 
         [Authorize(Roles = "Comercial")]
         [HttpPost]
-        public  IActionResult AddToCliente(AddLicencaDto addLicencaViewModel) 
+        public  async Task<IActionResult> AddToCliente(AddLicencaDto addLicencaViewModel) 
         {
             if (addLicencaViewModel == null) return BadRequest("Erro ao inserir licença: dados vazio!");
-
+           await this.licencaService.AddLicencaToCliente(addLicencaViewModel);   
             
 
             return Ok();

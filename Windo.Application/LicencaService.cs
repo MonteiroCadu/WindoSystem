@@ -3,20 +3,60 @@ using System.Text;
 using Windo.Application.Contratos;
 using Windo.Application.Dtos;
 using Windo.Persistence.Contratos;
+using Windo.Persistence.Dominio;
 
 namespace Windo.Application;
 
 public class LicencaService : ILicencaService{
     private readonly ILicencaPersist licencaPersist;
+    private readonly IPlanoVendaPersist planoVendaPersist;
+    private readonly IPlataformaPersist plataformaPersist;
+    private readonly IPessoaPersist pessoaPersist;
 
-    public LicencaService(ILicencaPersist licencaPersist)
+    public LicencaService(ILicencaPersist licencaPersist, 
+            IPlanoVendaPersist planoVendaPersist, 
+            IPlataformaPersist plataformaPersist,
+            IPessoaPersist pessoaPersist)
     {
         this.licencaPersist = licencaPersist;
+        this.planoVendaPersist = planoVendaPersist;
+        this.plataformaPersist = plataformaPersist;
+        this.pessoaPersist = pessoaPersist;
     }
    
-    public Task<AddLicencaDto> AddLicencaToCliente(AddLicencaDto addLicencaDto)
+    public async Task AddLicencaToCliente(AddLicencaDto addLicencaDto)
     {
-        this.licencaPersist.
+        if (addLicencaDto == null) throw new ArgumentNullException();
+
+        var planoVendaModel = await this.planoVendaPersist.GetByIdAsync(addLicencaDto.PlanoVenda);
+        if(planoVendaModel == null) throw new ArgumentNullException("Plano de venda informado não é cadastrado no sistema!");  
+
+        var dataVencimento = DateTime.Now.AddDays(planoVendaModel.ValidadeLicencaNavigation.NumeroDias);
+        var valor = planoVendaModel.Valor;
+
+        LicencaCliente licencaModel = new LicencaCliente
+        {
+            Pessoa          = addLicencaDto.Pessoa,            
+            Plataforma      = addLicencaDto.Plataforma,
+            ContaCorretora  = int.Parse(addLicencaDto.ContaCorretora),
+            CorretoraId     = addLicencaDto.Corretora,
+            DataAbertura    = DateTime.Now,
+            DataVencimento  = dataVencimento,
+            Ativa = 0
+        };
+
+        //Abre transação
+            //Salva licenca
+
+        HistoricoLicenca historicoLicenca = new HistoricoLicenca { 
+            Tipo = TipoHistoricoLicencaDto.COMPRA,
+            Valor = valor
+            //usa o ida da licenca salva aqui
+        };
+
+          //salva o historico
+        //fecha a transação
+        
         LicencaDto novaLicenca = new LicencaDto();
         novaLicenca.Ativa = 0;
         novaLicenca.Pessoa = addLicencaDto.Pessoa;

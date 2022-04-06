@@ -8,6 +8,7 @@ namespace Windo.Application.Dtos
         public int Pessoa { get; set; }
         public int Plataforma { get; set; }
         public int PlanoVenda { get; set; }
+        public int Corretora { get; set; }
         public string ContaCorretora { get; set; } = "";
     }
 }

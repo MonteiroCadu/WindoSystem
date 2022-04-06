@@ -75,6 +75,7 @@ function AddLicenca() {
     var plataforma = $('#plataforma').val();
     var plano = $('#planoVendas').val();
     var contaCorretora = $('#contaCorretora').val();
+    var corretora = $('#corretora').val();
 
     var divErroModal = $('#divErroModal');
     if (!this.ValidateModal(idPessoa, plataforma, plano, contaCorretora)) {
@@ -89,7 +90,8 @@ function AddLicenca() {
         'pessoa': idPessoa,
         'plataforma': plataforma,
         'planoVenda': plano,
-        'contaCorretora': contaCorretora
+        'contaCorretora': contaCorretora,
+        'corretora': corretora
     }
 
     $.post("/Licenca/AddToCliente", licenca, function (data) {
