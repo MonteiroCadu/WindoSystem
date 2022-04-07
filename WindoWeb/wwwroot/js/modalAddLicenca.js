@@ -10,6 +10,7 @@ function FillPlataformaSelect() {
             $('#plataforma').empty();
             $('#planoVendas').empty();
             $('#vencimento').val('');
+            $('#contaCorretora').val('');
 
             $('#plataforma').append('<option value="-1">Selecione</option>');
 
@@ -71,6 +72,7 @@ function ChengePlano() {
 };
 
 function AddLicenca() {
+    
     var idPessoa = $('#id').val();
     var plataforma = $('#plataforma').val();
     var plano = $('#planoVendas').val();
@@ -78,6 +80,7 @@ function AddLicenca() {
     var corretora = $('#corretora').val();
 
     var divErroModal = $('#divErroModal');
+    var divModal = $('#divModal');
     if (!this.ValidateModal(idPessoa, plataforma, plano, contaCorretora)) {
 
         divErroModal.css("display", "block");
@@ -94,11 +97,23 @@ function AddLicenca() {
         'corretora': corretora
     }
 
-    $.post("/Licenca/AddToCliente", licenca, function (data) {
+    var redireciona = false;
 
-    });
-
-
+    $.post("/Licenca/AddToCliente", licenca, function () {
+    })
+        .done(function (data) {
+            //alert(data.mensagem);
+            if (data.status == "ok") {
+                window.location.replace("/Cliente/Edit/" + idPessoa);
+            } else {
+                alert(data.erro);
+            }
+            
+        })
+        .fail(function (data) {
+            alert("Erro não mapeado");
+        });
+     
 };
 
 function ValidateModal(idPessoa, plataforma, plano, contaCorretora) {
@@ -115,4 +130,8 @@ function ValidateModal(idPessoa, plataforma, plano, contaCorretora) {
 
     return true;
 
+}
+
+function pageRedirect(idPessoa) {
+    window.location.replace("/Cliente/Edit/" + idPessoa);
 }

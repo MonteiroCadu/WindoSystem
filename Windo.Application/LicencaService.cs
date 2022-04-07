@@ -1,7 +1,9 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Text;
 using Windo.Application.Contratos;
 using Windo.Application.Dtos;
+using Windo.Persistence;
 using Windo.Persistence.Contratos;
 using Windo.Persistence.Dominio;
 
@@ -12,20 +14,31 @@ public class LicencaService : ILicencaService{
     private readonly IPlanoVendaPersist planoVendaPersist;
     private readonly IPlataformaPersist plataformaPersist;
     private readonly IPessoaPersist pessoaPersist;
+    private readonly IGeralPersist geralPersist;
+    private readonly windo_baseContext context;
+    private readonly IMapper mapper;
 
     public LicencaService(ILicencaPersist licencaPersist, 
             IPlanoVendaPersist planoVendaPersist, 
             IPlataformaPersist plataformaPersist,
-            IPessoaPersist pessoaPersist)
+            IPessoaPersist pessoaPersist,
+            IGeralPersist geralPersist,
+            windo_baseContext context,
+            IMapper mapper)
     {
         this.licencaPersist = licencaPersist;
         this.planoVendaPersist = planoVendaPersist;
         this.plataformaPersist = plataformaPersist;
         this.pessoaPersist = pessoaPersist;
+        this.geralPersist = geralPersist;
+        this.context = context;
+        this.mapper = mapper;
     }
    
-    public async Task AddLicencaToCliente(AddLicencaDto addLicencaDto)
+    public async Task<bool> AddLicencaToCliente(AddLicencaDto addLicencaDto)
     {
+        var retorno = false;
+
         if (addLicencaDto == null) throw new ArgumentNullException();
 
         var planoVendaModel = await this.planoVendaPersist.GetByIdAsync(addLicencaDto.PlanoVenda);
@@ -33,6 +46,9 @@ public class LicencaService : ILicencaService{
 
         var dataVencimento = DateTime.Now.AddDays(planoVendaModel.ValidadeLicencaNavigation.NumeroDias);
         var valor = planoVendaModel.Valor;
+
+        var plataformaCadastradaParaPessoa = await this.GetByPessoaIdByPlataformaIdAsync(addLicencaDto.Pessoa, addLicencaDto.Plataforma);
+        if (plataformaCadastradaParaPessoa != null) throw new Exception("Esté cliente já possui uma licença para esta plataforma!");
 
         LicencaCliente licencaModel = new LicencaCliente
         {
@@ -45,22 +61,52 @@ public class LicencaService : ILicencaService{
             Ativa = 0
         };
 
-        //Abre transação
-            //Salva licenca
-
-        HistoricoLicenca historicoLicenca = new HistoricoLicenca { 
-            Tipo = TipoHistoricoLicencaDto.COMPRA,
-            Valor = valor
-            //usa o ida da licenca salva aqui
-        };
-
-          //salva o historico
-        //fecha a transação
         
-        LicencaDto novaLicenca = new LicencaDto();
-        novaLicenca.Ativa = 0;
-        novaLicenca.Pessoa = addLicencaDto.Pessoa;
-        novaLicenca.DataAbertura = DateTime.Now;
+        using (var dbContextTransaction = context.Database.BeginTransaction())
+        {
+            try
+            {
+                this.geralPersist.Add(licencaModel);
+                await this.geralPersist.SaveChangesAsync();                
+
+                HistoricoLicenca historicoLicencaModel = new HistoricoLicenca
+                {
+                    Tipo = TipoHistoricoLicencaDto.COMPRA,
+                    Valor = valor,
+                    LicencaClienteId = licencaModel.Id
+                };
+
+
+                this.geralPersist.Add(historicoLicencaModel);
+                await this.geralPersist.SaveChangesAsync();
+                
+                dbContextTransaction.Commit();
+                retorno = true;
+            } 
+            catch (Exception ex)
+            {
+                dbContextTransaction.Rollback();
+                throw new Exception(ex?.InnerException?.Message);
+            }
+
+            dbContextTransaction.Dispose();
+        }
+        return retorno;
+    }
+
+    public async Task<LicencaDto?> GetByPessoaIdByPlataformaIdAsync(int pessoaId, int plataformaId)
+    {
+        var licencaModel = await this.licencaPersist.GetByPessoaIdByPlataformaIdAsync(pessoaId, plataformaId);
+        LicencaDto licencaDto;
+
+
+        if (licencaModel != null)
+        {
+            licencaDto = this.mapper.Map<LicencaDto>(licencaModel);
+            return licencaDto;
+        }
+
+        return null;
     }
 
     public string getStringEncryptLicenca(string id, string broker)

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Windo.Persistence;
 
@@ -11,9 +12,10 @@ using Windo.Persistence;
 namespace Windo.Persistence.Migrations
 {
     [DbContext(typeof(windo_baseContext))]
-    partial class windo_baseContextModelSnapshot : ModelSnapshot
+    [Migration("20220407184120_historico_licenca")]
+    partial class historico_licenca
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,7 +267,10 @@ namespace Windo.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("LicencaClienteId")
+                    b.Property<int?>("LicencaClienteNavigationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LicencaID")
                         .HasColumnType("int");
 
                     b.Property<int?>("Tipo")
@@ -278,7 +283,7 @@ namespace Windo.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LicencaClienteId");
+                    b.HasIndex("LicencaClienteNavigationId");
 
                     b.HasIndex("Tipo");
 
@@ -695,9 +700,7 @@ namespace Windo.Persistence.Migrations
                 {
                     b.HasOne("Windo.Persistence.Dominio.LicencaCliente", "LicencaClienteNavigation")
                         .WithMany()
-                        .HasForeignKey("LicencaClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LicencaClienteNavigationId");
 
                     b.HasOne("Windo.Persistence.Dominio.TipoHistoricoLicenca", "TipoNavigation")
                         .WithMany("HistoricoLicencas")

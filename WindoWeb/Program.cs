@@ -25,6 +25,7 @@ builder.Services.AddScoped<IPlanoVendaPersist, PlanoVendaPersist>();
 builder.Services.AddScoped<IPlanoVendaService, PlanoVendaService>();
 builder.Services.AddScoped<ICorretoraPersist, CorretoraPersist>();
 builder.Services.AddScoped<ICorretoraService, CorretoraService>();
+builder.Services.AddScoped<IGeralPersist, GeralPersist>();
 
 
 builder.Services.AddScoped < IConectionFactory, ConectionFactory>();

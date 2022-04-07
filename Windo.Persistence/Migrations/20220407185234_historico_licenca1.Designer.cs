@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Windo.Persistence;
 
@@ -11,9 +12,10 @@ using Windo.Persistence;
 namespace Windo.Persistence.Migrations
 {
     [DbContext(typeof(windo_baseContext))]
-    partial class windo_baseContextModelSnapshot : ModelSnapshot
+    [Migration("20220407185234_historico_licenca1")]
+    partial class historico_licenca1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,9 +267,6 @@ namespace Windo.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("LicencaClienteId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Tipo")
                         .HasColumnType("int")
                         .HasColumnName("tipo");
@@ -277,8 +276,6 @@ namespace Windo.Persistence.Migrations
                         .HasColumnName("valor");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LicencaClienteId");
 
                     b.HasIndex("Tipo");
 
@@ -693,18 +690,10 @@ namespace Windo.Persistence.Migrations
 
             modelBuilder.Entity("Windo.Persistence.Dominio.HistoricoLicenca", b =>
                 {
-                    b.HasOne("Windo.Persistence.Dominio.LicencaCliente", "LicencaClienteNavigation")
-                        .WithMany()
-                        .HasForeignKey("LicencaClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Windo.Persistence.Dominio.TipoHistoricoLicenca", "TipoNavigation")
                         .WithMany("HistoricoLicencas")
                         .HasForeignKey("Tipo")
                         .HasConstraintName("FK__HISTORICO___tipo__2180FB33");
-
-                    b.Navigation("LicencaClienteNavigation");
 
                     b.Navigation("TipoNavigation");
                 });

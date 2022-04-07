@@ -5,5 +5,7 @@ namespace Windo.Application.Contratos;
 public interface ILicencaService
 {
 	string getStringEncryptLicenca(string id, string broker);
-	Task AddLicencaToCliente(AddLicencaDto addLicencaDto);
+	Task<bool> AddLicencaToCliente(AddLicencaDto addLicencaDto);
+	Task<LicencaDto?> GetByPessoaIdByPlataformaIdAsync(int id, int plataformaId);
+
 }

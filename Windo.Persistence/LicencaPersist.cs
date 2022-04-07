@@ -28,6 +28,17 @@ namespace Windo.Persistence
 
             return await query.FirstOrDefaultAsync();
         }
+
+        public async Task<LicencaCliente?> GetByPessoaIdByPlataformaIdAsync(int pessoaId, int plataformaId)
+        {
+
+            IQueryable<LicencaCliente> query = _contexto.LicencaClientes
+                .Where(l => l.Pessoa == pessoaId && l.Plataforma == plataformaId)
+                .AsNoTracking();
+
+            return await query.FirstOrDefaultAsync();
+        }
+
         public async Task<LicencaCliente?> GetByContaCorretoraAndPlataformaAsync(int contaCorretora, int plataforma)
         {
             IQueryable<LicencaCliente> query = _contexto.LicencaClientes
