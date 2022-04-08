@@ -19,6 +19,7 @@ public interface ILicencaPersist
     Task<IList<LicencaCliente>> GetAllActiveAsync(int top);
     Task<LicencaCliente?> GetByIdAsync(int id);
     Task<LicencaCliente?> GetByPessoaIdByPlataformaIdAsync(int id, int plataformaId);
+    Task<IList<LicencaCliente>> GetByPessoaIdAsync(int pessoaId);
 }
 
 

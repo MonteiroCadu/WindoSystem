@@ -24,6 +24,9 @@ namespace Windo.Persistence
 
             IQueryable<LicencaCliente> query = _contexto.LicencaClientes
                 .Where(l => l.Id == id)
+                .Include(l => l.CorretoraNavigation)
+                .Include(l => l.PlataformaNavigation)
+                .Include(l => l.StatusLicencaNavigation)
                 .AsNoTracking();          
 
             return await query.FirstOrDefaultAsync();
@@ -38,7 +41,19 @@ namespace Windo.Persistence
 
             return await query.FirstOrDefaultAsync();
         }
+        public async Task<IList<LicencaCliente>> GetByPessoaIdAsync(int pessoaId)
+        {
 
+            IQueryable<LicencaCliente> query = _contexto.LicencaClientes
+                .Where(l => l.Pessoa == pessoaId)
+                .Include(l => l.CorretoraNavigation)
+                .Include(l => l.PlataformaNavigation)
+                .Include(l => l.StatusLicencaNavigation)
+                .AsNoTracking();
+
+            return await query.ToListAsync();
+        }
+        
         public async Task<LicencaCliente?> GetByContaCorretoraAndPlataformaAsync(int contaCorretora, int plataforma)
         {
             IQueryable<LicencaCliente> query = _contexto.LicencaClientes
@@ -52,8 +67,8 @@ namespace Windo.Persistence
         {
             IQueryable<LicencaCliente> query = _contexto.LicencaClientes
                 .Include(l => l.Pessoa)
-                .Include(l => l.Plataforma)
-                .Where(l => l.Ativa == 1)
+                .Include(l => l.PlataformaNavigation)
+                .Where(l => l.StatusLicencaId == StatusLicenca.ATIVA)
                 .OrderByDescending(l => l.DataAbertura)
                 .Take(top)
                 .AsNoTracking();

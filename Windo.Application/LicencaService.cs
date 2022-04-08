@@ -58,7 +58,7 @@ public class LicencaService : ILicencaService{
             CorretoraId     = addLicencaDto.Corretora,
             DataAbertura    = DateTime.Now,
             DataVencimento  = dataVencimento,
-            Ativa = 0
+            StatusLicencaId = StatusLicenca.PENDENTE
         };
 
         
@@ -107,6 +107,19 @@ public class LicencaService : ILicencaService{
         }
 
         return null;
+    }
+
+    public async Task<IList<LicencaDto>> GetByPessoaIdAsync(int pessoaId)
+    {
+        var licencasModel = await this.licencaPersist.GetByPessoaIdAsync(pessoaId); 
+
+        if (licencasModel != null)
+        {
+            var licencasDto = this.mapper.Map<IList<LicencaDto>>(licencasModel);
+            return licencasDto;
+        }
+
+        return new List<LicencaDto>();
     }
 
     public string getStringEncryptLicenca(string id, string broker)

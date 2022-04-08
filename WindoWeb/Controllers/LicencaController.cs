@@ -37,6 +37,7 @@ namespace WindoWeb.Controllers
             }
         }
 
+
         public string Licenca(string id, string broker)
         {
             return this.licencaService.getStringEncryptLicenca(id, broker);

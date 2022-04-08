@@ -109,8 +109,7 @@ namespace Windo.Persistence
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Ativa).HasColumnName("ativa");
-
+                
                 entity.Property(e => e.ContaCorretora).HasColumnName("conta_corretora");
 
                 entity.Property(e => e.DataAbertura)

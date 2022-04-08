@@ -9,10 +9,12 @@ namespace WindoWeb.Controllers
     public class ClienteController : Controller
     {
         private readonly IPessoaService pessoaService;
+        private readonly ILicencaService licencaService;
 
-        public ClienteController(IPessoaService pessoaService)
+        public ClienteController(IPessoaService pessoaService, ILicencaService licencaService)
         {
             this.pessoaService = pessoaService;
+            this.licencaService = licencaService;
         }
         // GET: ClienteController
 
@@ -83,6 +85,9 @@ namespace WindoWeb.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             var pessoaSalva = await this.pessoaService.GetByIdAsync(id);
+            if(pessoaSalva == null) return BadRequest("Cliente não cadastrado no sistema");
+
+            pessoaSalva.LicencaClientes = await this.licencaService.GetByPessoaIdAsync(id);
             ViewData["Id"] = pessoaSalva?.Id;
 
             this.SetViewData("Edição",true);            

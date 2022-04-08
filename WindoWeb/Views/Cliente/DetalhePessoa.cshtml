@@ -122,9 +122,7 @@
                     <tr >
                     <td class="d-sm-none  d-md-table-cell">@item.Id</td>
                     <td class="d-md-block  d-md-table-cell">@item.ContaCorretora</td>
-                    <td class="d-md-block  d-md-table-cell text-center">@{
-                                                                if (item.Ativa == 1) this.Write("Ativa"); 
-                                                                else this.Write("Inativa"); } 
+                    <td class="d-md-block  d-md-table-cell text-center">@item.StatusLicencaNavigation?.Nome 
                    </td>
                     <td class="d-sm-none  d-md-table-cell">@item.DataVencimento.ToShortDateString()</td>
                     <td class="d-md-block  d-md-table-cell">@item.PlataformaNavigation.Nome</td>

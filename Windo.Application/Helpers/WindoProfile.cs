@@ -22,7 +22,7 @@ public class ProEventosProfile : Profile
         CreateMap<TempoVencimentoLicenca, TempoVencimentoLicencaDto>().ReverseMap();
         CreateMap<TipoHistoricoLicenca, TipoHistoricoLicencaDto>().ReverseMap();
         CreateMap<Corretora, CorretoraDto>().ReverseMap();
-
+        CreateMap<StatusLicenca, StatusLicencaDto>().ReverseMap();
     }
 }
 
