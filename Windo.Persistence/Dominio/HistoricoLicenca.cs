@@ -9,6 +9,7 @@ namespace Windo.Persistence.Dominio
         public int? Tipo { get; set; }
         public decimal Valor { get; set; }
         public int LicencaClienteId { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;  
         public virtual LicencaCliente LicencaClienteNavigation { get; set; } = null!;
         public virtual TipoHistoricoLicenca? TipoNavigation { get; set; }
     }
