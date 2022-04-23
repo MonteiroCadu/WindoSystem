@@ -15,21 +15,28 @@ namespace WindoWeb.Controllers
         }
 
         [Authorize(Roles = "Comercial")]
-        public IActionResult Index()        
+        public IActionResult Index()
         {
-            
+
             return View();
         }
 
         [Authorize(Roles = "Comercial")]
+        public IActionResult LicencasPendentes()
+        {
+
+            return View("LicencasPendentes");
+        }
+
+        [Authorize(Roles = "Comercial")]
         [HttpPost]
-        public  async Task<IActionResult> AddToCliente(AddLicencaDto addLicencaViewModel) 
+        public async Task<IActionResult> AddToCliente(AddLicencaDto addLicencaViewModel)
         {
             if (addLicencaViewModel == null) return BadRequest("Erro ao inserir licença: dados vazio!");
             try
             {
                 await this.licencaService.AddLicencaToCliente(addLicencaViewModel);
-                return Ok(new { mensagem = "Salvo com sucesso",status = "ok" });
+                return Ok(new { mensagem = "Salvo com sucesso", status = "ok" });
             }
             catch (Exception ex)
             {
